@@ -1,11 +1,11 @@
 import React from 'react';
 
-function App() {
+function SignUp() {
   return (
     <div className="App">
-      <h1>Hello World!</h1>
+      <h1>Página de Logout</h1>
     </div>
   );
 }
 
-export default App;
+export default SignUp;
