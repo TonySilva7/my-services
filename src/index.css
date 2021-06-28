@@ -10,6 +10,13 @@
   outline: 0;
 }
 
+:root {
+  --primary-color: #252437;
+  --secondary-color: #EAEAEC;
+  --purple-logo: #7A75BC;
+  --blue-logo: #BBE9F9;
+}
+
 html, body, #root {
   height: 100%;
 }
