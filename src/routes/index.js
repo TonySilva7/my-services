@@ -1,19 +1,17 @@
 import { Switch } from "react-router-dom";
-import RouteWrapper from "./RouteWrapper";
+import MyRoute from "./MyRoute";
 
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Dashboard from "../pages/Dashboard";
 
-export default function Routes() {
+export default function AllRoutes() {
 
   return (
     <Switch>
-      <RouteWrapper exact path="/" component={ SignIn }/>
-      <RouteWrapper exact path="/register" component={ SignUp }/>
-      <RouteWrapper exact path="/dashboard" component={ Dashboard } isPrivate />
+      <MyRoute exact path="/" component={ SignIn }/>
+      <MyRoute exact path="/register" component={ SignUp }/>
+      <MyRoute exact path="/dashboard" component={ Dashboard } isPrivate />
     </Switch>
   );
-
 }
-
