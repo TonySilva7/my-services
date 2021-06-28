@@ -9,6 +9,8 @@ function AuthProvider ({ children }) {
   const [ loadingAuth, setLoadingAuth ] = useState(false);
   const [ loading, setLoading ] = useState(true);
 
+  console.log(loadingAuth);
+
   useEffect(() => {
     function loadStorage () {
       const storageUser = localStorage.getItem('SystemUser');
