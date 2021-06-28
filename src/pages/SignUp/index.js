@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import { ContainerCenter, LoginArea, LoginWrap } from "../SignIn/styles";
-import { ReactComponent as Logo } from "../../assets/logo-dev-life-opt.svg";
+import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
+import { ReactComponent as Logo } from "../../assets/logo-dev-life-opt.svg";
+import { ContainerCenter, LoginArea, LoginWrap } from "../SignIn/styles";
+import { AuthContext } from '../../contexts/auth';
 
-function SignUp() {
+function SignUp () {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const { signUp } = useContext(AuthContext);
 
-  function handleSubmit(event) {
+  const [ name, setName ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+
+  function handleSubmit (event) {
     event.preventDefault();
-    alert("Clicou!!!")
+
+    if (name !== '' && email !== '' && password !== '') {
+      signUp(name, email, password);
+    }
   }
 
   return (

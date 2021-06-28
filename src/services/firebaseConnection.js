@@ -1,5 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 let firebaseConfig = {
   apiKey: "AIzaSyD9NnPrTUmHJsbipQ8sFkhP9SZVzO5Gbx0",
@@ -11,8 +12,7 @@ let firebaseConfig = {
   measurementId: "G-C58EBCZ2PE"
 };
 
-if (!firebase.app.length) {
-  // Initialize Firebase
+if(!firebase.apps.length){
   firebase.initializeApp(firebaseConfig);
 }
 

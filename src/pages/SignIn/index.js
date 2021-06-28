@@ -24,13 +24,13 @@ function SignIn() {
           <h1>Entrar</h1>
           <input
             type="text"
-            placeholder="email@email.com"
+            placeholder="Email"
             value={ email }
             onChange={ (e) => setEmail(e.target.value) }
           />
           <input
             type="password"
-            placeholder="******"
+            placeholder="Senha"
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
           />
