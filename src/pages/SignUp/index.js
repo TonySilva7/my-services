@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/auth';
 
 function SignUp () {
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
   const [ name, setName ] = useState("");
   const [ email, setEmail ] = useState("");
@@ -47,7 +47,7 @@ function SignUp () {
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
           />
-          <button type="submit">Cadastrar</button>
+          <button type="submit">{ loadingAuth ? 'Carregando...' : 'Cadastrar' }</button>
         </form>
 
         <Link to="/">Já tem uma conta? Entre</Link>

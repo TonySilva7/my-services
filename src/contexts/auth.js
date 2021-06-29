@@ -9,8 +9,6 @@ function AuthProvider ({ children }) {
   const [ loadingAuth, setLoadingAuth ] = useState(false);
   const [ loading, setLoading ] = useState(true);
 
-  console.log(loadingAuth);
-
   useEffect(() => {
     function loadStorage () {
       const storageUser = localStorage.getItem('SystemUser');
@@ -23,6 +21,36 @@ function AuthProvider ({ children }) {
 
     loadStorage();
   }, []);
+
+  async function signIn(email, password) {
+    setLoadingAuth(true);
+
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(async (value) => {
+        let myUID = value.user.uid;
+
+        const userProfile = await firebase.firestore()
+          .collection('users')
+          .doc(myUID)
+          .get();
+
+        let dataUser = {
+          uid: myUID,
+          email: value.user.email,
+          name: userProfile.data().name,
+          avatarUrl: userProfile.data().avatarUrl,
+        }
+
+        setUser(dataUser);
+        storageUser(dataUser);
+        setLoadingAuth(false);
+
+      })
+      .catch((err) => {
+        setLoadingAuth(false);
+        console.log(err);
+      });
+  }
 
   async function signUp (name, email, password) {
     setLoadingAuth(true);
@@ -72,6 +100,8 @@ function AuthProvider ({ children }) {
         loading,
         signUp,
         signOut,
+        signIn,
+        loadingAuth
       } }
     >
       { children }

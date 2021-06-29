@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ReactComponent as Logo } from '../../assets/logo-dev-life-opt.svg';
+import { AuthContext } from '../../contexts/auth';
 import { ContainerCenter, LoginArea, LoginWrap } from "./styles";
 import { Link } from "react-router-dom";
 
 function SignIn() {
 
+  const { signIn, loadingAuth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
-    alert("Clicou!!!")
+
+    if (email !== '' && password !== '') {
+      signIn(email, password);
+    }
   }
 
   return (
@@ -34,7 +39,7 @@ function SignIn() {
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
           />
-          <button type="submit">Acessar</button>
+          <button type="submit">{ loadingAuth ? 'Carregando...' : 'Acessar' }</button>
         </form>
 
         <Link to="/register">Criar uma conta</Link>
