@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import firebase from '../services/firebaseConnection';
 
 export const AuthContext = createContext({});
@@ -22,6 +23,7 @@ function AuthProvider ({ children }) {
     loadStorage();
   }, []);
 
+  // Login
   async function signIn(email, password) {
     setLoadingAuth(true);
 
@@ -44,14 +46,17 @@ function AuthProvider ({ children }) {
         setUser(dataUser);
         storageUser(dataUser);
         setLoadingAuth(false);
+        toast.success('Bem vindo de volta, ' + dataUser.name);
 
       })
       .catch((err) => {
+        toast.error('Opps! Algo deu errado :(');
         setLoadingAuth(false);
         console.log(err);
       });
   }
 
+  // Register
   async function signUp (name, email, password) {
     setLoadingAuth(true);
     await firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -74,22 +79,26 @@ function AuthProvider ({ children }) {
             setUser(dataUser);
             storageUser(dataUser);
             setLoadingAuth(false);
+            toast.success('Bem vindo à plataforma, ' + dataUser.name);
           });
       })
       .catch((err) => {
         console.log(err);
+        toast.error('Opps! Algo deu errado :(')
         setLoadingAuth(false);
       });
   }
 
-  function storageUser (dataUser) {
-    localStorage.setItem('SystemUser', JSON.stringify(dataUser));
-  }
-
+  // LogOut
   async function signOut() {
     await firebase.auth().signOut();
     localStorage.removeItem('SystemUser');
     setUser(null);
+  }
+
+  // LocalStorage
+  function storageUser (dataUser) {
+    localStorage.setItem('SystemUser', JSON.stringify(dataUser));
   }
 
   return (
