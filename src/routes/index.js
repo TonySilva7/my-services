@@ -1,4 +1,5 @@
 import { Switch } from "react-router-dom";
+import Profile from '../pages/Profile';
 import MyRoute from "./MyRoute";
 
 import SignIn from "../pages/SignIn";
@@ -12,6 +13,7 @@ export default function AllRoutes() {
       <MyRoute exact path="/" component={ SignIn }/>
       <MyRoute exact path="/register" component={ SignUp }/>
       <MyRoute exact path="/dashboard" component={ Dashboard } isPrivate />
+      <MyRoute exact path="/profile" component={ Profile } isPrivate />
     </Switch>
   );
 }
