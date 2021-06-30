@@ -16,6 +16,5 @@ export const MyTitle = styled.header`
 
   @media screen and (max-width: 700px) {
     margin: 1em 16px 1em 16px;
-    //width: calc(100vw - (16px * 2));
   }
 `;
