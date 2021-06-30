@@ -104,4 +104,11 @@ export const ImgContainer = styled.aside`
     height: 100px;
     object-fit: cover;
   }
+
+  & > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 `;

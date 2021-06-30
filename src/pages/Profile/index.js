@@ -1,20 +1,99 @@
 import { useContext, useState } from 'react';
-import { FiSettings, FiUpload, FiPlusCircle } from "react-icons/fi";
+import { FiPlusCircle, FiSettings } from "react-icons/fi";
 import { ReactComponent as Avatar } from '../../assets/avatar-only.svg';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
+import firebase from '../../services/firebaseConnection';
 import { ContentProfile, LogOut, Wrapper } from './styles';
 
 export default function Profile () {
 
-  const { user, signOut } = useContext(AuthContext);
+  const { user, setUser, signOut, storageUser } = useContext(AuthContext);
   const [ name, setName ] = useState(user && user.name);
   const [ email, setEmail ] = useState(user && user.email);
   const [ avatarUrl, setAvatarUrl ] = useState(user && user.avatarUrl);
+  const [ imageAvatar, setImageAvatar ] = useState(null);
 
-  if (avatarUrl === null) {
-    setAvatarUrl("https://love.doghero.com.br/wp-content/uploads/2019/03/petisco-para-filhotes.png");
+  async function handleUpload () {
+    const currentUid = user.uid;
+    const uploadTask = await firebase.storage()
+      .ref(`images/${currentUid}/${imageAvatar.name}`)
+      .put(imageAvatar)
+      .then(async () => {
+        console.log('Imagem enviada')
+
+        await firebase.storage()
+          .ref(`images/${currentUid}`)
+          .child(imageAvatar.name).getDownloadURL()
+          .then(async (url) => {
+            let urlImg = url;
+
+            await firebase.firestore()
+              .collection('users')
+              .doc(user.uid)
+              .update({
+                avatarUrl: urlImg,
+                name: name,
+              })
+              .then(() => {
+                let userData = {
+                  ...user,
+                  avatarUrl: urlImg,
+                  name: name,
+                }
+                setUser(userData);
+                storageUser(userData);
+              })
+          })
+        alert('Imagem enviado com sucesso!');
+      })
+  }
+
+  async function handleSave (event) {
+    event.preventDefault();
+
+    if (imageAvatar === null && name !== '') {
+      await firebase.firestore()
+        .collection('users')
+        .doc(user.uid)
+        .update({
+          name: name,
+        })
+        .then(() => {
+
+          let userData = {
+            ...user,
+            name: name,
+          }
+
+          setUser(userData);
+          storageUser(userData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    else if (name !== '' && imageAvatar !== null) {
+      handleUpload();
+    }
+  }
+
+  function handleFile (event) {
+    if (event.target.files[0]) {
+
+      const myImage = event.target.files[0];
+      if (myImage.type === 'image/jpeg' || myImage.type === 'image/png') {
+        setImageAvatar(myImage);
+        const imgUrl = URL.createObjectURL(myImage);
+        setAvatarUrl(imgUrl);
+      }
+      else {
+        alert('Envie uma imagem do tipo JPEG ou PNG');
+        setImageAvatar(null);
+        return null;
+      }
+    }
   }
 
   return (
@@ -26,12 +105,12 @@ export default function Profile () {
         </Title>
 
         <ContentProfile>
-          <form>
+          <form onSubmit={ handleSave }>
             <label>
               <span>
                 <FiPlusCircle color="#fff" size={ 40 }/>
               </span>
-              <input type="file" accept="image/*"/>
+              <input type="file" accept="image/*" onChange={ handleFile }/>
               <br/>
               <div>
                 { avatarUrl === null
@@ -52,7 +131,7 @@ export default function Profile () {
         </ContentProfile>
 
         <LogOut>
-          <button onClick={() => signOut()}>Sair</button>
+          <button onClick={ () => signOut() }>Sair</button>
         </LogOut>
       </Wrapper>
     </>

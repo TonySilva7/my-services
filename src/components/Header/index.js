@@ -9,11 +9,12 @@ import { ImgContainer, SideBar } from './styles';
 export default function Header () {
   const { user } = useContext(AuthContext);
 
+
   return (
     <SideBar>
       <div>
         <ImgContainer>
-          { user.avatarUrl === null ? <Avatar alt="avatar"/> : "imagem" }
+          { user.avatarUrl === null ? <Avatar alt="avatar"/> : <img src={ user.avatarUrl } alt="Foto de perfil"/> }
         </ImgContainer>
       </div>
 
