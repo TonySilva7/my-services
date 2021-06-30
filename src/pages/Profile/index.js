@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
-import { ContentProfile, LogOut, Wrapper } from './styles';
+import { ContentProfile, LogOut, Container } from './styles';
 
 export default function Profile () {
 
@@ -75,7 +75,7 @@ export default function Profile () {
         });
     }
     else if (name !== '' && imageAvatar !== null) {
-      handleUpload();
+      await handleUpload();
     }
   }
 
@@ -99,7 +99,7 @@ export default function Profile () {
   return (
     <>
       <Header/>
-      <Wrapper>
+      <Container>
         <Title name="Meu Perfil">
           <FiSettings size={ 25 }/>
         </Title>
@@ -111,7 +111,6 @@ export default function Profile () {
                 <FiPlusCircle color="#fff" size={ 40 }/>
               </span>
               <input type="file" accept="image/*" onChange={ handleFile }/>
-              <br/>
               <div>
                 { avatarUrl === null
                   ? <Avatar height={ 200 } alt="Avatar"/>
@@ -119,13 +118,13 @@ export default function Profile () {
                 }
               </div>
             </label>
-            <br/>
-            <label htmlFor="name">Nome:</label> <br/>
+
+            <label htmlFor="name">Nome:</label>
             <input type="text" name="name" value={ name } onChange={ (e) => setName(e.target.value) }/>
-            <br/>
-            <label htmlFor="email">Email:</label> <br/>
+
+            <label htmlFor="email">Email:</label>
             <input type="email" name="email" value={ email } disabled={ true }/>
-            <br/>
+
             <button type="submit">Salvar</button>
           </form>
         </ContentProfile>
@@ -133,7 +132,7 @@ export default function Profile () {
         <LogOut>
           <button onClick={ () => signOut() }>Sair</button>
         </LogOut>
-      </Wrapper>
+      </Container>
     </>
   );
 }

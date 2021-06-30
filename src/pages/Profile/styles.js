@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,20 +31,20 @@ export const ContentProfile = styled.div`
 
   width: 100%;
   border-radius: 5px;
-  padding: .8em 1.2em;
+  padding: 1.8em 1.2em;
   box-shadow: var(--my-shadow);
   background-color: #f8f8f8;
 
   & > form {
     display: flex;
     flex-direction: column;
+    height: auto;
   }
 
   & > form > label {
-    //margin-bottom: .5em;
-    line-height: .5;
     font-size: 1.3em;
     color: var(--primary-color);
+    margin-bottom: 5px;
   }
 
   & > form > input, textarea, select {
@@ -70,8 +70,6 @@ export const ContentProfile = styled.div`
     justify-content: center;
     position: relative;
     
-    width: 275px;
-    height: 275px;
     cursor: pointer;
     border-radius: 50%;
   }
@@ -79,7 +77,8 @@ export const ContentProfile = styled.div`
   & > form > label:first-child > span {
     z-index: 99;
     position: absolute;
-    bottom: 7px;
+    bottom: 14px;
+    right: 52px;
     transition: all .5s ease;
   }
 

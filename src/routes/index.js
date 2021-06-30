@@ -1,4 +1,5 @@
 import { Switch } from "react-router-dom";
+import { Customer } from '../pages/customer';
 import Profile from '../pages/Profile';
 import MyRoute from "./MyRoute";
 
@@ -14,6 +15,7 @@ export default function AllRoutes() {
       <MyRoute exact path="/register" component={ SignUp }/>
       <MyRoute exact path="/dashboard" component={ Dashboard } isPrivate />
       <MyRoute exact path="/profile" component={ Profile } isPrivate />
+      <MyRoute exact path="/customers" component={ Customer } isPrivate />
     </Switch>
   );
 }
