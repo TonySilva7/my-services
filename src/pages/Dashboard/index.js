@@ -32,7 +32,7 @@ export default function Dashboard () {
             )
             : (
               <>
-                <Link to="/new">
+                <Link to="/new-calling">
                   <FiPlus size={ 25 }/>
                   Novo Chamado
                 </Link>

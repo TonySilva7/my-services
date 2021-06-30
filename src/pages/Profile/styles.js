@@ -49,13 +49,13 @@ export const ContentProfile = styled.div`
 
   & > form > input, textarea, select {
     margin-bottom: 1em;
-    padding: .7em;
+    padding: .3em .7em;
     border: 0;
     border-radius: 5px;
     max-width: 600px;
     min-width: 300px;
     font-size: 1.1em;
-    color: #3c3f41;
+    height: 35px;
   }
 
   & > form > input:disabled {
