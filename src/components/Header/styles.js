@@ -28,15 +28,6 @@ export const SideBar = styled.aside`
     background-size: cover;
   }
 
-  //
-  //& > div > svg {
-  //  width: 100px;
-  //  height: 100px;
-  //  object-fit: cover;
-  //  -webkit-filter: drop-shadow(2px 3px 6px #121212);
-  //  filter: drop-shadow(2px 3px 6px #121212);
-  //}
-
   & > a {
     display: flex;
     align-items: center;

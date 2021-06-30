@@ -8,6 +8,7 @@ export const MyTitle = styled.header`
   background-color: #f8f8f8;
   padding: .8em;
   width: 100%;
+  box-shadow: var(--my-shadow);
   
   & > span {
     margin-left: 1em;

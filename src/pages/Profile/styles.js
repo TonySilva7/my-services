@@ -6,10 +6,11 @@ export const Wrapper = styled.div`
   align-items: center;
   box-sizing: border-box;
   height: auto;
-  width: calc(100vw - 220px);
+  //width: calc(100% - 232px);
+  //width: calc(100vw - 230px);
   margin-left: 200px;
   padding: 16px;
-
+  
   @media screen and (max-width: 700px) {
     margin-left: 0;
     width: 100%;
@@ -26,12 +27,13 @@ export const Wrapper = styled.div`
 export const ContentProfile = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  align-items: center;
 
-  background-color: #f8f8f8;
+  width: 100%;
   border-radius: 5px;
   padding: .8em 1.2em;
-  align-items: center;
+  box-shadow: var(--my-shadow);
+  background-color: #f8f8f8;
 
   & > form {
     display: flex;
@@ -39,8 +41,10 @@ export const ContentProfile = styled.div`
   }
 
   & > form > label {
-    margin-bottom: .5em;
-    font-size: 1.4em;
+    //margin-bottom: .5em;
+    line-height: .5;
+    font-size: 1.3em;
+    color: var(--primary-color);
   }
 
   & > form > input, textarea, select {
@@ -59,7 +63,6 @@ export const ContentProfile = styled.div`
   }
   
   
-
   & > form > label:first-child {
     display: flex;
     flex-direction: column;
@@ -76,7 +79,7 @@ export const ContentProfile = styled.div`
   & > form > label:first-child > span {
     z-index: 99;
     position: absolute;
-    bottom: 0;
+    bottom: 7px;
     transition: all .5s ease;
   }
 
@@ -138,6 +141,7 @@ export const LogOut = styled.footer`
   
   width: 100%;
   padding: 12px 0;
+  box-shadow: var(--my-shadow);
   
   & > button {
     padding: 6px 20px;
