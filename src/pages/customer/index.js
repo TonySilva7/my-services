@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { FiUser } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
+import firebase from '../../services/firebaseConnection';
 import { Container } from '../Profile/styles';
 import { Wrapper } from './styles';
 
@@ -12,9 +14,30 @@ export function Customer () {
   const [ address, setAddress ] = useState('');
 
 
-  function handleAdd (event) {
+  async function handleAdd (event) {
     event.preventDefault();
-    alert('Clicou!');
+
+    if (fantasyName !== '' && CNPJ !== '' && address !== '') {
+      await firebase.firestore()
+        .collection('customers')
+        .add({
+          fantasyName: fantasyName,
+          cnpj: CNPJ,
+          address: address,
+        })
+        .then(() => {
+          setFantasyName('');
+          setCNPJ('');
+          setAddress('');
+          toast.info('Cadastro realizado com sucesso!');
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Ocorreu um erro!');
+        });
+    } else {
+      toast.error('Preencha todos os campos!');
+    }
   }
 
   return (
