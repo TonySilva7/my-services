@@ -62,59 +62,11 @@ export const ContentProfile = styled.div`
     cursor: not-allowed;
   }
   
-  
   & > form > label:first-child {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     position: relative;
-    
-    cursor: pointer;
-    border-radius: 50%;
-  }
-
-  & > form > label:first-child > span {
-    z-index: 99;
-    position: absolute;
-    bottom: 14px;
-    right: 52px;
-    transition: all .5s ease;
-  }
-
-  & > form > label:first-child > span:hover {
-    border-radius: 50%;
-    transform: scale(1.2);
-    filter: hue-rotate(325deg);
-  }
-
-  & > form > label:first-child > span > svg {
-    border-radius: 50%;
-    background-color: #a0e5f8;
-  }
-  
-  & > form > label:first-child > input {
-    display: none;
-  }
-
-  & > form > label:first-child > div {
-    display: flex;
-    background: linear-gradient(349.4deg, #524CA7 16.75%, #A2E2F9 79.35%);
-    border-radius: 50%;
-    padding: .4em;
-  }
-
-  & > form > label:first-child > div > img {
-    border-radius: 50%;
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
-  }
-
-  & > form > label:first-child > div > svg {
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
   }
 
   & > form > button {
@@ -128,7 +80,61 @@ export const ContentProfile = styled.div`
     max-width: 600px;
     min-width: 300px;
   }
- 
+`;
+
+export const ImgProfile = styled.picture`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  cursor: pointer;
+  border-radius: 50%;
+  height: 220px;
+  width: 220px;
+  position: relative;
+
+  & > span {
+    z-index: 99;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    transition: all .5s ease;
+  }
+
+  & > span:hover {
+    border-radius: 50%;
+    transform: scale(1.2);
+    filter: hue-rotate(325deg);
+  }
+
+  & > span > svg {
+    border-radius: 50%;
+    background-color: #a0e5f8;
+  }
+
+  & > input {
+    display: none;
+  }
+
+  & > div {
+    display: flex;
+    background: linear-gradient(349.4deg, #524CA7 16.75%, #A2E2F9 79.35%);
+    border-radius: 50%;
+    padding: .4em;
+  }
+
+  & > div > img {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
+
+  & > div > svg {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
 `;
 
 export const LogOut = styled.footer`

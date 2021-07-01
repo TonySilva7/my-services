@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import firebase from '../../services/firebaseConnection';
-import { Container } from '../Profile/styles';
-import { Wrapper } from './styles';
+import { Container, ContentProfile } from '../Profile/styles';
 
 export function Customer () {
 
@@ -48,7 +47,7 @@ export function Customer () {
           <FiUser size={ 25 }/>
         </Title>
 
-        <Wrapper>
+        <ContentProfile>
           <form onSubmit={ handleAdd }>
             <label htmlFor="name">Nome Fantasia:</label>
             <input
@@ -78,7 +77,7 @@ export function Customer () {
 
             <button type="submit">Cadastrar</button>
           </form>
-        </Wrapper>
+        </ContentProfile>
       </Container>
     </>
   );

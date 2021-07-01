@@ -90,7 +90,6 @@ export default function NewCalling () {
 
         <Wrapper>
           <form onSubmit={ handleRegister }>
-
             <label htmlFor="name-client">Cliente:</label>
             { loadCustomers
               ? (

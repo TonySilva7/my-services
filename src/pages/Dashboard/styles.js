@@ -2,15 +2,7 @@ import styled from 'styled-components';
 import { ContentProfile } from '../Profile/styles';
 
 export const Wrapper = styled(ContentProfile)`
-  
-  // Redefine atributos de ContentProfile
-  & > form > label:first-child {
-    align-items: flex-start;
-    cursor: default;
-    border-radius: 0;
-  }
 
-  //..........................................
   & > span {
     margin: 2em 0;
     font-weight: 600;
@@ -31,7 +23,7 @@ export const Wrapper = styled(ContentProfile)`
     border-radius: 6px;
     transition: all .2s ease;
   }
-  
+
   & > a:hover {
     filter: brightness(1.1);
     transform: scale(1.05);
@@ -40,39 +32,46 @@ export const Wrapper = styled(ContentProfile)`
   & > a > svg {
     margin-right: 5px;
   }
-  
+
   & > table {
-    border: solid 1px #ccc;
+    //border: solid 1px #ccc;
     border-collapse: collapse;
     margin: 0;
     padding: 0;
     width: 100%;
     table-layout: fixed;
     color: #252437;
+    box-shadow: var(--my-shadow);
   }
-  
+
+
+  & > table > thead {
+    background-color: #EEE;
+    border-bottom: solid 2px var(--purple-logo);
+  }
+
   & table caption {
     font-size: 1.5em;
     margin: .5em 0 .75em;
   }
-  
-  & table tr {
-    background-color: #f5f5f5;
-    border: solid 1px #ddd;
+
+  & table tbody > tr:nth-child(odd) {
+    background-color: #FFF;
+    //border: solid 1px #ddd;
     padding: 1em;
   }
-  
+
   & > table th, table td {
     padding: .62em;
     text-align: center;
   }
-  
+
   & > table th {
     font-size: .85em;
     letter-spacing: .1em;
     text-transform: uppercase;
   }
-  
+
   & > table td > span {
     padding: 5px;
     align-items: center;
@@ -80,7 +79,7 @@ export const Wrapper = styled(ContentProfile)`
     border-radius: 4px;
     color: #efefef;
   }
-  
+
   & > table td > button {
     border: 0;
     padding: 5px;
@@ -93,16 +92,16 @@ export const Wrapper = styled(ContentProfile)`
   & > table td > button > svg {
     vertical-align: middle;
   }
-  
+
   @media screen and (max-width: 600px) {
     table {
       border: 0;
     }
-    
+
     table caption {
       font-size: 1.3em;
     }
-    
+
     table thead {
       border: none;
       clip: rect(0 0 0 0);
@@ -113,20 +112,20 @@ export const Wrapper = styled(ContentProfile)`
       position: absolute;
       width: 1px;
     }
-    
+
     table tr {
       border-bottom: solid 3px #ddd;
       display: block;
       margin-bottom: .65em;
     }
-    
+
     table td {
       border-bottom: solid 1px #ddd;
       display: block;
       font-size: .8em;
       text-align: right;
     }
-    
+
     table td::before {
       content: attr(data-label);
       float: left;
@@ -134,11 +133,9 @@ export const Wrapper = styled(ContentProfile)`
       text-transform: uppercase;
       text-align: center;
     }
-    
+
     table td:last-child {
       border: 0;
     }
   }
-  
-  
 `;

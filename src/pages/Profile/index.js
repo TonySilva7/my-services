@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
-import { ContentProfile, LogOut, Container } from './styles';
+import { Container, ContentProfile, ImgProfile, LogOut } from './styles';
 
 export default function Profile () {
 
@@ -18,13 +18,13 @@ export default function Profile () {
   async function handleUpload () {
     const currentUid = user.uid;
     const uploadTask = await firebase.storage()
-      .ref(`images/${currentUid}/${imageAvatar.name}`)
+      .ref(`images/${ currentUid }/${ imageAvatar.name }`)
       .put(imageAvatar)
       .then(async () => {
-        console.log('Imagem enviada')
+        console.log('Imagem enviada');
 
         await firebase.storage()
-          .ref(`images/${currentUid}`)
+          .ref(`images/${ currentUid }`)
           .child(imageAvatar.name).getDownloadURL()
           .then(async (url) => {
             let urlImg = url;
@@ -41,13 +41,13 @@ export default function Profile () {
                   ...user,
                   avatarUrl: urlImg,
                   name: name,
-                }
+                };
                 setUser(userData);
                 storageUser(userData);
-              })
-          })
+              });
+          });
         alert('Imagem enviado com sucesso!');
-      })
+      });
   }
 
   async function handleSave (event) {
@@ -65,7 +65,7 @@ export default function Profile () {
           let userData = {
             ...user,
             name: name,
-          }
+          };
 
           setUser(userData);
           storageUser(userData);
@@ -73,8 +73,7 @@ export default function Profile () {
         .catch((err) => {
           console.log(err);
         });
-    }
-    else if (name !== '' && imageAvatar !== null) {
+    } else if (name !== '' && imageAvatar !== null) {
       await handleUpload();
     }
   }
@@ -87,8 +86,7 @@ export default function Profile () {
         setImageAvatar(myImage);
         const imgUrl = URL.createObjectURL(myImage);
         setAvatarUrl(imgUrl);
-      }
-      else {
+      } else {
         alert('Envie uma imagem do tipo JPEG ou PNG');
         setImageAvatar(null);
         return null;
@@ -107,16 +105,18 @@ export default function Profile () {
         <ContentProfile>
           <form onSubmit={ handleSave }>
             <label>
-              <span>
-                <FiPlusCircle color="#fff" size={ 40 }/>
-              </span>
-              <input type="file" accept="image/*" onChange={ handleFile }/>
-              <div>
-                { avatarUrl === null
-                  ? <Avatar height={ 200 } alt="Avatar"/>
-                  : <img src={ avatarUrl } height={ 250 } alt="Imagem de perfil do usuário"/>
-                }
-              </div>
+              <ImgProfile>
+                <span>
+                  <FiPlusCircle color="#fff" size={ 40 }/>
+                </span>
+                <input type="file" accept="image/*" onChange={ handleFile }/>
+                <div>
+                  { avatarUrl === null
+                    ? <Avatar height={ 200 } alt="Avatar"/>
+                    : <img src={ avatarUrl } height={ 250 } alt="Imagem de perfil do usuário"/>
+                  }
+                </div>
+              </ImgProfile>
             </label>
 
             <label htmlFor="name">Nome:</label>
