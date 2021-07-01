@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
@@ -59,8 +60,31 @@ export default function NewCalling () {
       .then(() => console.log(''));
   }, []);
 
-  function handleRegister (event) {
+  // salva dados do form
+  async function handleRegister (event) {
     event.preventDefault();
+
+    await firebase.firestore()
+      .collection('calls')
+      .add({
+        created: new Date(),
+        client: customers[customerSelected].fantasyName,
+        clientId: customers[customerSelected].id,
+        subject: subject,
+        status: status,
+        compliment: textArea,
+        userId: user.uid,
+      })
+      .then(() => {
+        toast.success('Chamado criado com sucesso!');
+        setTextArea('');
+        setCustomerSelected(0);
+        setSubject('Suporte');
+      })
+      .catch((err) => {
+        toast.error('Ops, erro ao registrar');
+        console.log(err);
+      });
 
   }
 
@@ -96,7 +120,8 @@ export default function NewCalling () {
                 <input type="text" disabled={ true } value="Carregando cliente..."/>
               )
               : (
-                <select name="name-client" id="name-client" value={ customerSelected } onChange={ valueChangeCustomers }>
+                <select name="name-client" id="name-client" value={ customerSelected }
+                        onChange={ valueChangeCustomers }>
                   {
                     customers.map((item, index) => {
                       return (

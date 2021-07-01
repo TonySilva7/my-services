@@ -6,6 +6,7 @@ export const Wrapper = styled(ContentProfile)`
   & > form textarea {
       height: 105px;
       resize: none;
+      font-family: 'Roboto',sans-serif;
   }
   
   & > form input[type="radio"] {

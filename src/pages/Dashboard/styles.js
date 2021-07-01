@@ -2,6 +2,21 @@ import styled from 'styled-components';
 import { ContentProfile } from '../Profile/styles';
 
 export const Wrapper = styled(ContentProfile)`
+  
+  & > button {
+    margin-top: 20px;
+    padding: 6px 20px;
+    background-color: transparent;
+    border: solid 2px var(--primary-color);
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: all .3s ease;
+  }
+
+  & > button:hover {
+    background-color: var(--primary-color);
+    color: #efefef;
+  }
 
   & > span {
     margin: 2em 0;
@@ -43,7 +58,6 @@ export const Wrapper = styled(ContentProfile)`
     color: #252437;
     box-shadow: var(--my-shadow);
   }
-
 
   & > table > thead {
     background-color: #EEE;
@@ -117,6 +131,7 @@ export const Wrapper = styled(ContentProfile)`
       border-bottom: solid 3px #ddd;
       display: block;
       margin-bottom: .65em;
+      margin-top: 2em;
     }
 
     table td {

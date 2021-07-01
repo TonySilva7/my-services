@@ -10,7 +10,7 @@ export const Container = styled.div`
   //width: calc(100vw - 230px);
   margin-left: 200px;
   padding: 16px;
-  
+
   @media screen and (max-width: 700px) {
     margin-left: 0;
     width: 100%;
@@ -61,7 +61,7 @@ export const ContentProfile = styled.div`
   & > form > input:disabled {
     cursor: not-allowed;
   }
-  
+
   & > form > label:first-child {
     display: flex;
     flex-direction: column;
@@ -138,16 +138,16 @@ export const ImgProfile = styled.picture`
 `;
 
 export const LogOut = styled.footer`
-  background-color: #f8f8f8;
-  margin: 16px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   
+  margin: 16px 0;
   width: 100%;
   padding: 12px 0;
   box-shadow: var(--my-shadow);
-  
+  background-color: #f8f8f8;
+
   & > button {
     padding: 6px 20px;
     background-color: transparent;

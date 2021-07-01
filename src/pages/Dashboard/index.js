@@ -1,14 +1,101 @@
-import { useState } from 'react';
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
 import { FiEdit2, FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
+import firebase from '../../services/firebaseConnection';
 import { Container } from '../Profile/styles';
 import { Wrapper } from './styles';
 
 export default function Dashboard () {
 
-  const [ serviceCall, setServiceCall ] = useState([ 1 ]);
+  const [ calls, setCalls ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
+  const [ loadingMore, setLoadingMore ] = useState(false);
+  const [ isEmpty, setIsEmpty ] = useState(false);
+  const [ lastDoc, setLastDoc ] = useState();
+
+  const myDbFirebase = firebase.firestore().collection('calls').orderBy('created', 'desc');
+
+  useEffect(() => {
+    getCalls();
+
+    return () => {
+
+    };
+  }, []);
+
+  async function updateState (snapshot) {
+    const isCollectionEmpty = snapshot.size === 0;
+
+    if ( !isCollectionEmpty) {
+      let list = [];
+
+      snapshot.forEach((doc) => {
+        list.push({
+          id: doc.id,
+          subject: doc.data().subject,
+          client: doc.data().client,
+          clientId: doc.data().clientId,
+          created: doc.data().created,
+          createdFormat: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
+          status: doc.data().status,
+          compliment: doc.data.compliment,
+        });
+      });
+
+      // pega o último elemento carregado
+      let myLastDoc = snapshot.docs[snapshot.docs.length - 1];
+      setCalls((calls) => [ ...calls, ...list ]);
+      setLastDoc(myLastDoc);
+    } else {
+      setIsEmpty(true);
+    }
+
+    setLoadingMore(false);
+  }
+
+  async function getCalls () {
+    await myDbFirebase.limit(5)
+      .get()
+      .then((snapshot) => {
+        updateState(snapshot);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoadingMore(false);
+      });
+    setLoading(false);
+  }
+
+  async function handleMore () {
+    setLoadingMore(true);
+    await myDbFirebase
+      .startAfter(lastDoc)
+      .limit(5)
+      .get()
+      .then((snapshot) => {
+        updateState(snapshot);
+      });
+  }
+
+  if (loading) {
+    return (
+      <div>
+        <Header/>
+        <Container>
+          <Title name="Atendimento">
+            <FiMessageSquare size={ 25 }/>
+          </Title>
+        </Container>
+
+        <Wrapper>
+          <span> Buscando chamados... </span>
+        </Wrapper>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -19,7 +106,7 @@ export default function Dashboard () {
         </Title>
 
         <Wrapper>
-          { serviceCall.length === 0
+          { calls.length === 0
             ? (
               <>
                 <span>Nenhum chamado registrado...</span>
@@ -48,24 +135,33 @@ export default function Dashboard () {
                   </thead>
 
                   <tbody>
-                  <tr>
-                    <td data-label="Cliente">DevLife</td>
-                    <td data-label="Assunto">Suporte</td>
-                    <td data-label="Status">
-                      <span style={ { backgroundColor: '#5cb85c' } }>Em aberto</span>
-                    </td>
-                    <td data-label="Cadastrado">20/06/2021</td>
-                    <td data-label="#">
-                      <button style={ { backgroundColor: '#3583f6' } }>
-                        <FiSearch color="#FFF" size={ 17 }/>
-                      </button>
-                      <button style={ { backgroundColor: '#f6a935' } }>
-                        <FiEdit2 color="#FFF" size={ 17 }/>
-                      </button>
-                    </td>
-                  </tr>
+                  { calls.map((item, index) => {
+                    return (
+                      <tr key={ index }>
+                        <td data-label="Cliente">{ item.client }</td>
+                        <td data-label="Assunto">{ item.subject }</td>
+                        <td data-label="Status">
+                          <span style={ { backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999', width: 85, textAlign: 'center' } }>
+                            { item.status }
+                          </span>
+                        </td>
+                        <td data-label="Cadastrado">{ item.createdFormat }</td>
+                        <td data-label="#">
+                          <button style={ { backgroundColor: '#3583f6' } }>
+                            <FiSearch color="#FFF" size={ 17 }/>
+                          </button>
+                          <button style={ { backgroundColor: '#f6a935' } }>
+                            <FiEdit2 color="#FFF" size={ 17 }/>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  }) }
                   </tbody>
                 </table>
+
+                { loadingMore && <h3 style={ { textAlign: 'center', marginTop: 15 } }>Buscando dados...</h3> }
+                { !loading && !isEmpty && <button onClick={ handleMore }>Buscar mais</button> }
               </>
             )
           }
@@ -73,5 +169,6 @@ export default function Dashboard () {
         </Wrapper>
       </Container>
     </>
-  );
+  )
+    ;
 }
