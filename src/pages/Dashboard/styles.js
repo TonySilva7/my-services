@@ -195,28 +195,3 @@ export const Wrapper = styled(ContentProfile)`
   }
 `;
 
-export const Loader = styled.span`
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: normal;
-  
- // & > img {
- //   filter: hue-rotate(129deg);
- // }
- // 
- //& > svg {
- //  color: #7a75bc;
- //  margin-left: 1em;
- //  animation: anim .4s infinite linear;
- //}
- // 
- // @keyframes anim {
- //   to {
- //     transform: rotate(180deg);
- //     filter: hue-rotate(90deg);
- //   }
- // }
-`;
-

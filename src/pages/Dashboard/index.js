@@ -8,7 +8,7 @@ import Modal from '../../components/Modal';
 import Title from '../../components/Title';
 import firebase from '../../services/firebaseConnection';
 import { Container } from '../Profile/styles';
-import { Loader, Wrapper } from './styles';
+import { Wrapper } from './styles';
 
 export default function Dashboard () {
 
@@ -104,9 +104,7 @@ export default function Dashboard () {
 
           <Wrapper>
             <div>
-              <Loader>
                 <LoaderTony/>
-              </Loader>
             </div>
           </Wrapper>
         </Container>
@@ -183,7 +181,7 @@ export default function Dashboard () {
                   </tbody>
                 </table>
 
-                { loadingMore && <Loader style={ { textAlign: 'center', marginTop: 15 } }><LoaderTony/></Loader> }
+                { loadingMore && <LoaderTony/> }
                 { !loading && !isEmpty && <button onClick={ handleMore }><FiDownload/> Buscar mais</button> }
               </>
             )
