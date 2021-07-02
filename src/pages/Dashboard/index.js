@@ -88,7 +88,7 @@ export default function Dashboard () {
   }
 
   function togglePostModal (item) {
-    console.log(item)
+    console.log(item);
     setShowPostModal( !showPostModal);
     setDetail(item);
   }
@@ -169,9 +169,9 @@ export default function Dashboard () {
                             <FiSearch color="#FFF" size={ 17 }/>
                           </button>
 
-                          <button style={ { backgroundColor: '#f6a935' } }>
+                          <Link to={ `/new-calling/${ item.id }` } style={ { backgroundColor: '#f6a935' } }>
                             <FiEdit2 color="#FFF" size={ 17 }/>
-                          </button>
+                          </Link>
                         </td>
                       </tr>
                     );

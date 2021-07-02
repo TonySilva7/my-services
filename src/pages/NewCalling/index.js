@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
+import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -12,6 +13,9 @@ export default function NewCalling () {
 
   const { user } = useContext(AuthContext);
 
+  const { id } = useParams();
+  const history = useHistory();
+
   const [ customers, setCustomers ] = useState([]);
   const [ customerSelected, setCustomerSelected ] = useState(0);
   const [ subject, setSubject ] = useState('Suporte');
@@ -19,6 +23,7 @@ export default function NewCalling () {
   const [ textArea, setTextArea ] = useState('');
 
   const [ loadCustomers, setLoadCustomers ] = useState(false);
+  const [ idCustomers, setIdCustomers ] = useState(false);
 
   useEffect(() => {
     async function loadCustomers () {
@@ -46,6 +51,10 @@ export default function NewCalling () {
           setCustomers(list);
           setLoadCustomers(false);
 
+          if (id) {
+            loadId(list);
+          }
+
         })
         .catch((err) => {
           setLoadCustomers(false);
@@ -56,13 +65,58 @@ export default function NewCalling () {
         });
     }
 
-    loadCustomers()
-      .then(() => console.log(''));
+    loadCustomers().catch((err) => console.log(err));
   }, []);
+
+  // carrega cliente a partir do id passado na URL
+  async function loadId (list) {
+    await firebase.firestore()
+      .collection('calls')
+      .doc(id)
+      .get()
+      .then((snapshot) => {
+        setSubject(snapshot.data().subject);
+        setStatus(snapshot.data().status);
+        setTextArea(snapshot.data().compliment);
+
+        let index = list.findIndex((client) => client.id === snapshot.data().clientId);
+        setCustomerSelected(index);
+        setIdCustomers(true);
+      })
+      .catch((err) => {
+        console.log('Erro ao buscar ID: ' + err);
+        setIdCustomers(false);
+      });
+  }
 
   // salva dados do form
   async function handleRegister (event) {
     event.preventDefault();
+
+    if (idCustomers) {
+      await firebase.firestore()
+        .collection('calls')
+        .doc(id)
+        .update({
+          client: customers[customerSelected].fantasyName,
+          clientId: customers[customerSelected].id,
+          subject: subject,
+          status: status,
+          compliment: textArea,
+          userId: user.uid,
+        })
+        .then(() => {
+          toast.success('Chamado editado com sucesso!');
+          setCustomerSelected(0);
+          setTextArea('');
+          history.push('/dashboard');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      return;
+    }
 
     await firebase.firestore()
       .collection('calls')

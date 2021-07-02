@@ -18,6 +18,7 @@ export default function AllRoutes() {
       <MyRoute exact path="/profile" component={ Profile } isPrivate />
       <MyRoute exact path="/customers" component={ Customer } isPrivate />
       <MyRoute exact path="/new-calling" component={ NewCalling } isPrivate />
+      <MyRoute exact path="/new-calling/:id" component={ NewCalling } isPrivate />
     </Switch>
   );
 }

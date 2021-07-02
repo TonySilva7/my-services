@@ -69,6 +69,8 @@ export const Wrapper = styled(ContentProfile)`
     margin: .5em 0 .75em;
   }
 
+
+  
   & table tbody > tr:nth-child(odd) {
     background-color: #FFF;
     //border: solid 1px #ddd;
@@ -105,11 +107,27 @@ export const Wrapper = styled(ContentProfile)`
     align-items: center;
     display: inline-block;
     border-radius: 4px;
+    vertical-align: middle;
   }
 
   & > table td > button > svg {
     vertical-align: middle;
   }
+
+  & > table td > a {
+    border: 0;
+    padding: 5px;
+    margin-right: 5px;
+    align-items: center;
+    display: inline-block;
+    border-radius: 4px;
+  }
+
+  & > table td > a > svg {
+    vertical-align: middle;
+  }
+  
+  
 
   @media screen and (max-width: 600px) {
     table {
