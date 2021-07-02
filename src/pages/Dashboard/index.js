@@ -1,13 +1,14 @@
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { FiEdit2, FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiDownload, FiEdit2, FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
+import LoaderTony from '../../components/LoaderTony';
 import Modal from '../../components/Modal';
 import Title from '../../components/Title';
 import firebase from '../../services/firebaseConnection';
 import { Container } from '../Profile/styles';
-import { Wrapper } from './styles';
+import { Loader, Wrapper } from './styles';
 
 export default function Dashboard () {
 
@@ -98,13 +99,17 @@ export default function Dashboard () {
         <Header/>
         <Container>
           <Title name="Atendimento">
-            <FiMessageSquare size={ 25 }/>
+            <FiMessageSquare size={ 30 }/>
           </Title>
-        </Container>
 
-        <Wrapper>
-          <span> Buscando chamados... </span>
-        </Wrapper>
+          <Wrapper>
+            <div>
+              <Loader>
+                <LoaderTony/>
+              </Loader>
+            </div>
+          </Wrapper>
+        </Container>
       </div>
     );
   }
@@ -125,7 +130,7 @@ export default function Dashboard () {
                 <span>Nenhum chamado registrado...</span>
 
                 <Link to="/new-calling">
-                  <FiPlus size={ 25 }/>
+                  <FiPlus size={ 22 }/>
                   Novo Chamado
                 </Link>
               </>
@@ -133,7 +138,7 @@ export default function Dashboard () {
             : (
               <>
                 <Link to="/new-calling">
-                  <FiPlus size={ 25 }/>
+                  <FiPlus size={ 22 }/>
                   Novo Chamado
                 </Link>
                 <table>
@@ -178,8 +183,8 @@ export default function Dashboard () {
                   </tbody>
                 </table>
 
-                { loadingMore && <h3 style={ { textAlign: 'center', marginTop: 15 } }>Buscando dados...</h3> }
-                { !loading && !isEmpty && <button onClick={ handleMore }>Buscar mais</button> }
+                { loadingMore && <Loader style={ { textAlign: 'center', marginTop: 15 } }><LoaderTony/></Loader> }
+                { !loading && !isEmpty && <button onClick={ handleMore }><FiDownload/> Buscar mais</button> }
               </>
             )
           }

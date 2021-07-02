@@ -15,9 +15,11 @@ export default function Profile () {
   const [ avatarUrl, setAvatarUrl ] = useState(user && user.avatarUrl);
   const [ imageAvatar, setImageAvatar ] = useState(null);
 
+  console.log(setEmail);
+
   async function handleUpload () {
     const currentUid = user.uid;
-    const uploadTask = await firebase.storage()
+    await firebase.storage()
       .ref(`images/${ currentUid }/${ imageAvatar.name }`)
       .put(imageAvatar)
       .then(async () => {

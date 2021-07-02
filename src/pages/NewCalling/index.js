@@ -26,6 +26,27 @@ export default function NewCalling () {
   const [ idCustomers, setIdCustomers ] = useState(false);
 
   useEffect(() => {
+    // carrega cliente a partir do id passado na URL
+    async function loadId (list) {
+      await firebase.firestore()
+        .collection('calls')
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          setSubject(snapshot.data().subject);
+          setStatus(snapshot.data().status);
+          setComplement(snapshot.data().complement);
+
+          let index = list.findIndex((client) => client.id === snapshot.data().clientId);
+          setCustomerSelected(index);
+          setIdCustomers(true);
+        })
+        .catch((err) => {
+          console.log('Erro ao buscar ID: ' + err);
+          setIdCustomers(false);
+        });
+    }
+
     async function loadCustomers () {
       setLoadCustomers(true);
       await firebase.firestore()
@@ -66,28 +87,8 @@ export default function NewCalling () {
     }
 
     loadCustomers().catch((err) => console.log(err));
-  }, []);
+  }, [id]);
 
-  // carrega cliente a partir do id passado na URL
-  async function loadId (list) {
-    await firebase.firestore()
-      .collection('calls')
-      .doc(id)
-      .get()
-      .then((snapshot) => {
-        setSubject(snapshot.data().subject);
-        setStatus(snapshot.data().status);
-        setComplement(snapshot.data().complement);
-
-        let index = list.findIndex((client) => client.id === snapshot.data().clientId);
-        setCustomerSelected(index);
-        setIdCustomers(true);
-      })
-      .catch((err) => {
-        console.log('Erro ao buscar ID: ' + err);
-        setIdCustomers(false);
-      });
-  }
 
   // salva dados do form
   async function handleRegister (event) {

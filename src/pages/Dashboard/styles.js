@@ -30,7 +30,7 @@ export const Wrapper = styled(ContentProfile)`
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5em;
-    background-color: #83bf02;
+    background-color: #7a75bc;
     color: #efefef;
     padding: .5em;
     font-weight: 600;
@@ -39,13 +39,17 @@ export const Wrapper = styled(ContentProfile)`
     transition: all .2s ease;
   }
 
-  & > a:hover {
-    filter: brightness(1.1);
-    transform: scale(1.05);
-  }
-
   & > a > svg {
     margin-right: 5px;
+    transition: all .5s ease;
+  }
+
+  & > a:hover {
+    filter: brightness(1.1);
+    transform: scale(1.03);
+    svg {
+      transform: rotate(90deg);
+    }
   }
 
   & > table {
@@ -190,3 +194,29 @@ export const Wrapper = styled(ContentProfile)`
     }
   }
 `;
+
+export const Loader = styled.span`
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  
+ // & > img {
+ //   filter: hue-rotate(129deg);
+ // }
+ // 
+ //& > svg {
+ //  color: #7a75bc;
+ //  margin-left: 1em;
+ //  animation: anim .4s infinite linear;
+ //}
+ // 
+ // @keyframes anim {
+ //   to {
+ //     transform: rotate(180deg);
+ //     filter: hue-rotate(90deg);
+ //   }
+ // }
+`;
+
