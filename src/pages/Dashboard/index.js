@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { FiEdit2, FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
+import Modal from '../../components/Modal';
 import Title from '../../components/Title';
 import firebase from '../../services/firebaseConnection';
 import { Container } from '../Profile/styles';
@@ -16,13 +17,30 @@ export default function Dashboard () {
   const [ isEmpty, setIsEmpty ] = useState(false);
   const [ lastDoc, setLastDoc ] = useState();
 
-  const myDbFirebase = firebase.firestore().collection('calls').orderBy('created', 'desc');
+  const [ showPostModal, setShowPostModal ] = useState(false); //>>>> Mude Para o padrão FALSE <<<<
+  const [ detail, setDetail ] = useState();
 
   useEffect(() => {
-    getCalls();
+
+    async function getCalls () {
+      await firebase.firestore()
+        .collection('calls')
+        .orderBy('created', 'desc')
+        .limit(5)
+        .get()
+        .then((snapshot) => {
+          updateState(snapshot);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoadingMore(false);
+        });
+      setLoading(false);
+    }
+
+    getCalls().catch((e) => console.log(e));
 
     return () => {
-
     };
   }, []);
 
@@ -41,7 +59,7 @@ export default function Dashboard () {
           created: doc.data().created,
           createdFormat: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
           status: doc.data().status,
-          compliment: doc.data.compliment,
+          compliment: doc.data().compliment,
         });
       });
 
@@ -56,28 +74,23 @@ export default function Dashboard () {
     setLoadingMore(false);
   }
 
-  async function getCalls () {
-    await myDbFirebase.limit(5)
-      .get()
-      .then((snapshot) => {
-        updateState(snapshot);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoadingMore(false);
-      });
-    setLoading(false);
-  }
-
   async function handleMore () {
     setLoadingMore(true);
-    await myDbFirebase
+    await firebase.firestore()
+      .collection('calls')
+      .orderBy('created', 'desc')
       .startAfter(lastDoc)
       .limit(5)
       .get()
       .then((snapshot) => {
         updateState(snapshot);
       });
+  }
+
+  function togglePostModal (item) {
+    console.log(item)
+    setShowPostModal( !showPostModal);
+    setDetail(item);
   }
 
   if (loading) {
@@ -100,6 +113,7 @@ export default function Dashboard () {
   return (
     <>
       <Header/>
+
       <Container>
         <Title name="Atendimento">
           <FiMessageSquare size={ 25 }/>
@@ -141,15 +155,20 @@ export default function Dashboard () {
                         <td data-label="Cliente">{ item.client }</td>
                         <td data-label="Assunto">{ item.subject }</td>
                         <td data-label="Status">
-                          <span style={ { backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999', width: 85, textAlign: 'center' } }>
+                          <span style={ {
+                            backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999',
+                            width: 85,
+                            textAlign: 'center'
+                          } }>
                             { item.status }
                           </span>
                         </td>
                         <td data-label="Cadastrado">{ item.createdFormat }</td>
                         <td data-label="#">
-                          <button style={ { backgroundColor: '#3583f6' } }>
+                          <button style={ { backgroundColor: '#3583f6' } } onClick={ () => togglePostModal(item) }>
                             <FiSearch color="#FFF" size={ 17 }/>
                           </button>
+
                           <button style={ { backgroundColor: '#f6a935' } }>
                             <FiEdit2 color="#FFF" size={ 17 }/>
                           </button>
@@ -168,6 +187,8 @@ export default function Dashboard () {
 
         </Wrapper>
       </Container>
+
+      { showPostModal && <Modal content={ detail } close={ togglePostModal }/> }
     </>
   )
     ;

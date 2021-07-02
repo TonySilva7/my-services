@@ -75,6 +75,10 @@ export const Wrapper = styled(ContentProfile)`
     padding: 1em;
   }
 
+  & table tbody > tr:hover {
+    background-color: rgba(122, 117, 188, .1);
+  }
+
   & > table th, table td {
     padding: .62em;
     text-align: center;
