@@ -112,6 +112,13 @@ export const Wrapper = styled(ContentProfile)`
 
   & > table td > button > svg {
     vertical-align: middle;
+    transition: all .5s ease;
+  }
+
+  & > table td > button:hover {
+    svg {
+      transform: scale(1.2);
+    }
   }
 
   & > table td > a {
@@ -125,6 +132,13 @@ export const Wrapper = styled(ContentProfile)`
 
   & > table td > a > svg {
     vertical-align: middle;
+    transition: all .5s ease;
+  }
+
+  & > table td > a:hover {
+    svg {
+      transform: rotate(-46deg);
+    }
   }
   
   
