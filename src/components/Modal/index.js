@@ -45,11 +45,11 @@ export default function Modal ({ content, close }) {
             </MyRow>
 
             {
-              content.compliment !== '' && (
+              content.complement !== '' && (
                 <>
                   <h3>Complemento:</h3>
                   <p>
-                    { content.compliment }
+                    { content.complement }
                   </p>
                 </>
               )

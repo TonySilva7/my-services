@@ -59,7 +59,7 @@ export default function Dashboard () {
           created: doc.data().created,
           createdFormat: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
           status: doc.data().status,
-          compliment: doc.data().compliment,
+          complement: doc.data().complement,
         });
       });
 
@@ -88,7 +88,6 @@ export default function Dashboard () {
   }
 
   function togglePostModal (item) {
-    console.log(item);
     setShowPostModal( !showPostModal);
     setDetail(item);
   }
@@ -125,7 +124,7 @@ export default function Dashboard () {
               <>
                 <span>Nenhum chamado registrado...</span>
 
-                <Link to="/new">
+                <Link to="/new-calling">
                   <FiPlus size={ 25 }/>
                   Novo Chamado
                 </Link>

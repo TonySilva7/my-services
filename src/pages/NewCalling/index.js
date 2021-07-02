@@ -20,7 +20,7 @@ export default function NewCalling () {
   const [ customerSelected, setCustomerSelected ] = useState(0);
   const [ subject, setSubject ] = useState('Suporte');
   const [ status, setStatus ] = useState('Aberto');
-  const [ textArea, setTextArea ] = useState('');
+  const [ complement, setComplement ] = useState('');
 
   const [ loadCustomers, setLoadCustomers ] = useState(false);
   const [ idCustomers, setIdCustomers ] = useState(false);
@@ -77,7 +77,7 @@ export default function NewCalling () {
       .then((snapshot) => {
         setSubject(snapshot.data().subject);
         setStatus(snapshot.data().status);
-        setTextArea(snapshot.data().compliment);
+        setComplement(snapshot.data().complement);
 
         let index = list.findIndex((client) => client.id === snapshot.data().clientId);
         setCustomerSelected(index);
@@ -102,13 +102,13 @@ export default function NewCalling () {
           clientId: customers[customerSelected].id,
           subject: subject,
           status: status,
-          compliment: textArea,
+          complement: complement,
           userId: user.uid,
         })
         .then(() => {
           toast.success('Chamado editado com sucesso!');
           setCustomerSelected(0);
-          setTextArea('');
+          setComplement('');
           history.push('/dashboard');
         })
         .catch((err) => {
@@ -126,12 +126,12 @@ export default function NewCalling () {
         clientId: customers[customerSelected].id,
         subject: subject,
         status: status,
-        compliment: textArea,
+        complement: complement,
         userId: user.uid,
       })
       .then(() => {
         toast.success('Chamado criado com sucesso!');
-        setTextArea('');
+        setComplement('');
         setCustomerSelected(0);
         setSubject('Suporte');
       })
@@ -226,13 +226,13 @@ export default function NewCalling () {
             <label htmlFor="complement">Complemento:</label>
             <textarea
               type="text"
-              value={ textArea }
+              value={ complement }
               name="complement"
               placeholder="Descreva seu problema (opcional)."
               id="complement"
               cols="30"
               rows="10"
-              onChange={ (e) => setTextArea(e.target.value) }
+              onChange={ (e) => setComplement(e.target.value) }
             />
 
             <button type="submit">Registrar</button>
