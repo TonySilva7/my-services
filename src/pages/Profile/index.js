@@ -1,7 +1,9 @@
 import { useContext, useState } from 'react';
 import { FiPlusCircle, FiSettings } from "react-icons/fi";
+import { toast } from 'react-toastify';
 import { ReactComponent as Avatar } from '../../assets/avatar-only.svg';
 import Header from '../../components/Header';
+import LoaderBalls from '../../components/LoaderBalls';
 import Title from '../../components/Title';
 import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
@@ -14,6 +16,7 @@ export default function Profile () {
   const [ email, setEmail ] = useState(user && user.email);
   const [ avatarUrl, setAvatarUrl ] = useState(user && user.avatarUrl);
   const [ imageAvatar, setImageAvatar ] = useState(null);
+  const [ loading, setLoading ] = useState(false);
 
   console.log(setEmail);
 
@@ -39,6 +42,7 @@ export default function Profile () {
                 name: name,
               })
               .then(() => {
+                setLoading(true);
                 let userData = {
                   ...user,
                   avatarUrl: urlImg,
@@ -48,7 +52,8 @@ export default function Profile () {
                 storageUser(userData);
               });
           });
-        alert('Imagem enviado com sucesso!');
+        setLoading(false);
+        toast.info('Imagem enviado com sucesso!');
       });
   }
 
@@ -56,6 +61,7 @@ export default function Profile () {
     event.preventDefault();
 
     if (imageAvatar === null && name !== '') {
+      setLoading(true);
       await firebase.firestore()
         .collection('users')
         .doc(user.uid)
@@ -71,6 +77,7 @@ export default function Profile () {
 
           setUser(userData);
           storageUser(userData);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -115,7 +122,9 @@ export default function Profile () {
                 <div>
                   { avatarUrl === null
                     ? <Avatar height={ 200 } alt="Avatar"/>
-                    : <img src={ avatarUrl } height={ 250 } alt="Imagem de perfil do usuário"/>
+                    : loading
+                      ? <LoaderBalls size={ 50 } fill="#FFF"/>
+                      : <img src={ avatarUrl } height={ 250 } alt="Imagem de perfil do usuário"/>
                   }
                 </div>
               </ImgProfile>

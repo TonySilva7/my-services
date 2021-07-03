@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FiDownload, FiEdit2, FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
-import LoaderTony from '../../components/LoaderTony';
+import LoaderBalls from '../../components/LoaderBalls';
 import Modal from '../../components/Modal';
 import Title from '../../components/Title';
 import firebase from '../../services/firebaseConnection';
@@ -104,7 +104,7 @@ export default function Dashboard () {
 
           <Wrapper>
             <div>
-                <LoaderTony/>
+              <LoaderBalls size={40} fill="#7a75bc"/>
             </div>
           </Wrapper>
         </Container>
@@ -120,7 +120,6 @@ export default function Dashboard () {
         <Title name="Atendimento">
           <FiMessageSquare size={ 25 }/>
         </Title>
-
         <Wrapper>
           { calls.length === 0
             ? (
@@ -181,7 +180,7 @@ export default function Dashboard () {
                   </tbody>
                 </table>
 
-                { loadingMore && <LoaderTony/> }
+                { loadingMore && <LoaderBalls size={30} fill="#252437" /> }
                 { !loading && !isEmpty && <button onClick={ handleMore }><FiDownload/> Buscar mais</button> }
               </>
             )

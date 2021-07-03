@@ -73,7 +73,6 @@ export const Wrapper = styled(ContentProfile)`
     margin: .5em 0 .75em;
   }
 
-
   
   & table tbody > tr:nth-child(odd) {
     background-color: #FFF;
@@ -146,6 +145,9 @@ export const Wrapper = styled(ContentProfile)`
   }
   
   
+  & > div > div > svg {
+    margin-top: 30px;
+  }
 
   @media screen and (max-width: 600px) {
     table {

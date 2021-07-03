@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/logo-dev-life-opt.svg";
+import LoaderBalls from '../../components/LoaderBalls';
 import { ContainerCenter, LoginArea, LoginWrap } from "../SignIn/styles";
 import { AuthContext } from '../../contexts/auth';
 
@@ -47,7 +48,7 @@ function SignUp () {
             value={ password }
             onChange={ (e) => setPassword(e.target.value) }
           />
-          <button type="submit">{ loadingAuth ? 'Carregando...' : 'Cadastrar' }</button>
+          <button type="submit">{ loadingAuth ? <LoaderBalls size={20} fill="#7a75bc"/> : 'Cadastrar' }</button>
         </form>
 
         <Link to="/">Já tem uma conta? Entre</Link>

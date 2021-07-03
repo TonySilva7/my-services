@@ -6,8 +6,6 @@ export const Container = styled.div`
   align-items: center;
   box-sizing: border-box;
   height: auto;
-  //width: calc(100% - 232px);
-  //width: calc(100vw - 230px);
   margin-left: 200px;
   padding: 16px;
 
