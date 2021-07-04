@@ -3,8 +3,6 @@ import { Container, MyModal, MyRow } from './styles';
 
 export default function Modal ({ content, close }) {
 
-  console.log(content);
-
   return (
     <div>
       <MyModal>
