@@ -10,20 +10,20 @@ import firebase from '../../services/firebaseConnection';
 import { Container } from '../Profile/styles';
 import { Wrapper } from './styles';
 
-export default function Dashboard () {
+export default function Dashboard() {
 
-  const [ calls, setCalls ] = useState([]);
-  const [ loading, setLoading ] = useState(true);
-  const [ loadingMore, setLoadingMore ] = useState(false);
-  const [ isEmpty, setIsEmpty ] = useState(false);
-  const [ lastDoc, setLastDoc ] = useState();
+  const [calls, setCalls] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [lastDoc, setLastDoc] = useState();
 
-  const [ showPostModal, setShowPostModal ] = useState(false); //>>>> Mude Para o padrão FALSE <<<<
-  const [ detail, setDetail ] = useState();
+  const [showPostModal, setShowPostModal] = useState(false); //>>>> Mude Para o padrão FALSE <<<<
+  const [detail, setDetail] = useState();
 
   useEffect(() => {
 
-    async function getCalls () {
+    async function getCalls() {
       await firebase.firestore()
         .collection('calls')
         .orderBy('created', 'desc')
@@ -45,10 +45,10 @@ export default function Dashboard () {
     };
   }, []);
 
-  async function updateState (snapshot) {
+  async function updateState(snapshot) {
     const isCollectionEmpty = snapshot.size === 0;
 
-    if ( !isCollectionEmpty) {
+    if (!isCollectionEmpty) {
       let list = [];
 
       snapshot.forEach((doc) => {
@@ -66,7 +66,7 @@ export default function Dashboard () {
 
       // pega o último elemento carregado
       let myLastDoc = snapshot.docs[snapshot.docs.length - 1];
-      setCalls((calls) => [ ...calls, ...list ]);
+      setCalls((calls) => [...calls, ...list]);
       setLastDoc(myLastDoc);
     } else {
       setIsEmpty(true);
@@ -75,7 +75,7 @@ export default function Dashboard () {
     setLoadingMore(false);
   }
 
-  async function handleMore () {
+  async function handleMore() {
     setLoadingMore(true);
     await firebase.firestore()
       .collection('calls')
@@ -88,23 +88,23 @@ export default function Dashboard () {
       });
   }
 
-  function togglePostModal (item) {
-    setShowPostModal( !showPostModal);
+  function togglePostModal(item) {
+    setShowPostModal(!showPostModal);
     setDetail(item);
   }
 
   if (loading) {
     return (
       <div>
-        <Header/>
+        <Header />
         <Container>
           <Title name="Atendimento">
-            <FiMessageSquare size={ 30 }/>
+            <FiMessageSquare size={30} />
           </Title>
 
           <Wrapper>
             <div>
-              <LoaderBalls size={40} fill="#7a75bc"/>
+              <LoaderBalls size={40} fill="#7a75bc" />
             </div>
           </Wrapper>
         </Container>
@@ -114,20 +114,20 @@ export default function Dashboard () {
 
   return (
     <>
-      <Header/>
+      <Header />
 
       <Container>
         <Title name="Atendimento">
-          <FiMessageSquare size={ 25 }/>
+          <FiMessageSquare size={25} />
         </Title>
         <Wrapper>
-          { calls.length === 0
+          {calls.length === 0
             ? (
               <>
                 <span>Nenhum chamado registrado...</span>
 
                 <Link to="/new-calling">
-                  <FiPlus size={ 22 }/>
+                  <FiPlus size={22} />
                   Novo Chamado
                 </Link>
               </>
@@ -135,53 +135,53 @@ export default function Dashboard () {
             : (
               <>
                 <Link to="/new-calling">
-                  <FiPlus size={ 22 }/>
+                  <FiPlus size={22} />
                   Novo Chamado
                 </Link>
                 <table>
                   <thead>
-                  <tr>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Assunto</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Cadastrado em</th>
-                    <th scope="col">#</th>
-                  </tr>
+                    <tr>
+                      <th scope="col">Cliente</th>
+                      <th scope="col">Assunto</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Cadastrado em</th>
+                      <th scope="col">#</th>
+                    </tr>
                   </thead>
 
                   <tbody>
-                  { calls.map((item, index) => {
-                    return (
-                      <tr key={ index }>
-                        <td data-label="Cliente">{ item.client }</td>
-                        <td data-label="Assunto">{ item.subject }</td>
-                        <td data-label="Status">
-                          <span style={ {
-                            backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999',
-                            width: 85,
-                            textAlign: 'center'
-                          } }>
-                            { item.status }
-                          </span>
-                        </td>
-                        <td data-label="Cadastrado">{ item.createdFormat }</td>
-                        <td data-label="#">
-                          <button style={ { backgroundColor: '#3583f6' } } onClick={ () => togglePostModal(item) }>
-                            <FiSearch color="#FFF" size={ 17 }/>
-                          </button>
+                    {calls.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td data-label="Cliente">{item.client}</td>
+                          <td data-label="Assunto">{item.subject}</td>
+                          <td data-label="Status">
+                            <span style={{
+                              backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999',
+                              width: 85,
+                              textAlign: 'center'
+                            }}>
+                              {item.status}
+                            </span>
+                          </td>
+                          <td data-label="Cadastrado">{item.createdFormat}</td>
+                          <td data-label="#">
+                            <button style={{ backgroundColor: '#3583f6' }} onClick={() => togglePostModal(item)}>
+                              <FiSearch color="#FFF" size={17} />
+                            </button>
 
-                          <Link to={ `/new-calling/${ item.id }` } style={ { backgroundColor: '#f6a935' } }>
-                            <FiEdit2 color="#FFF" size={ 17 }/>
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  }) }
+                            <Link to={`/new-calling/${item.id}`} style={{ backgroundColor: '#f6a935' }}>
+                              <FiEdit2 color="#FFF" size={17} />
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
 
-                { loadingMore && <LoaderBalls size={30} fill="#252437" /> }
-                { !loading && !isEmpty && <button onClick={ handleMore }><FiDownload/> Buscar mais</button> }
+                {loadingMore && <LoaderBalls size={30} fill="#252437" />}
+                {!loading && !isEmpty && <button onClick={handleMore}><FiDownload /> Buscar mais</button>}
               </>
             )
           }
@@ -189,7 +189,7 @@ export default function Dashboard () {
         </Wrapper>
       </Container>
 
-      { showPostModal && <Modal content={ detail } close={ togglePostModal }/> }
+      {showPostModal && <Modal content={detail} close={togglePostModal} />}
     </>
   )
     ;
