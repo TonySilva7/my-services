@@ -1,6 +1,12 @@
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { FiDownload, FiEdit2, FiMessageSquare, FiPlus, FiSearch } from 'react-icons/fi';
+import {
+	FiDownload,
+	FiEdit2,
+	FiMessageSquare,
+	FiPlus,
+	FiSearch,
+} from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import LoaderBalls from '../../components/LoaderBalls';
@@ -155,11 +161,11 @@ export default function Dashboard() {
 												<td data-label='Status'>
 													<span
 														style={{
-															backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999',
+															backgroundColor:
+																item.status === 'Aberto' ? '#5cb85c' : '#999',
 															width: 85,
 															textAlign: 'center',
-														}}
-													>
+														}}>
 														{item.status}
 													</span>
 												</td>
@@ -167,15 +173,13 @@ export default function Dashboard() {
 												<td data-label='#'>
 													<button
 														style={{ backgroundColor: '#3583f6' }}
-														onClick={() => togglePostModal(item)}
-													>
+														onClick={() => togglePostModal(item)}>
 														<FiSearch color='#FFF' size={17} />
 													</button>
 
 													<Link
 														to={`/new-calling/${item.id}`}
-														style={{ backgroundColor: '#f6a935' }}
-													>
+														style={{ backgroundColor: '#f6a935' }}>
 														<FiEdit2 color='#FFF' size={17} />
 													</Link>
 												</td>
